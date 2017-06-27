@@ -1,20 +1,14 @@
 ---
-name: 'Install mongodb'
-debug:
-  msg: 'Install if not installed yet'
+- name: 'Install mongodb'
+  debug:
+    msg: 'Install if not installed yet'
 
-name: 'Create database'
-debug:
-  msg: 'Create if not created yet'
+- name: 'Update demo runs count'
+  command: "./update_db.py update_runs_count mongodb://{{ mongodb_username }}:{{ mongodb_password }}@{{ mongodb_url }}:{{ mongodb_port }}/{{ mongodb_db_name }}"
+  args:
+    chdir: '{{ role_path }}/files'
 
-name: 'Update demo runs count'
-debug:
-  msg: 'Increase demo runs count'
-
-name: 'Update total number of users having executed demo'
-debug:
-  msg: 'Search username for duplicates if found don't increase if not found increase'
-
-name: 'Update number of runs per user'
-debug:
-  msg: 'Maybe can be merged with the step above'
+- name: 'Update number of runs per user'
+  command: "./update_db.py update_count_per_user mongodb://{{ mongodb_username }}:{{ mongodb_password }}@{{ mongodb_url }}:{{ mongodb_port }}/{{ mongodb_db_name }} {{ labs_username }}"
+  args:
+    chdir: '{{ role_path }}/files'

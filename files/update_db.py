@@ -28,9 +28,14 @@ def update_count_per_user(url, username):
   else:
     db.UserRuns.update_one({'username': username}, {'$inc': {'count': 1}}, upsert=False)
 
+
 command = sys.argv[1]
 url = sys.argv[2]
-username = sys. argv[3]
+print len(sys.argv)
+if len(sys.argv) < 4:
+  username = None
+else:
+  username = sys.argv[3]
 
 if command == 'update_runs_count':
   update_runs_count(url)
