@@ -19,10 +19,6 @@ def update_count_per_user(url, username):
   user_runs_count = db.UserRuns.find({'username': username})
   unique_users_count = db.GlobalStats.find({'name': 'unique_users'})
 
-  for record in db.UserRuns.find():
-    print record['username']
-    print record['count']
-
   if unique_users_count.count() == 0:
     db.GlobalStats.insert({'name': 'unique_users', 'count': 1})
 
