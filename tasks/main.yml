@@ -1,14 +1,13 @@
 ---
 - name: 'Install mongodb'
-  debug:
-    msg: 'Install if not installed yet'
+  include: configure_mongodb.yml
 
 - name: 'Update demo runs count'
-  command: "./update_db.py update_runs_count mongodb://{{ mongodb_username }}:{{ mongodb_password }}@{{ mongodb_url }}:{{ mongodb_port }}/{{ mongodb_db_name }}"
+  command: "./update_db.py update_runs_count"
   args:
     chdir: '{{ role_path }}/files'
 
 - name: 'Update number of runs per user'
-  command: "./update_db.py update_count_per_user mongodb://{{ mongodb_username }}:{{ mongodb_password }}@{{ mongodb_url }}:{{ mongodb_port }}/{{ mongodb_db_name }} {{ labs_username }}"
+  command: "./update_db.py update_count_per_user {{ labs_username }}"
   args:
     chdir: '{{ role_path }}/files'

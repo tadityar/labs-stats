@@ -2,7 +2,7 @@
 import pymongo
 import sys
 
-def update_runs_count(url):
+def update_runs_count():
   client = pymongo.MongoClient("mongodb://localhost:27017/labs_stats_db")
   db = client.labs_stats_db
 
@@ -12,7 +12,7 @@ def update_runs_count(url):
   else:
     db.GlobalStats.update_one({'name': 'runs'}, {'$inc': {'count': 1}}, upsert=False)
 
-def update_count_per_user(url, username):
+def update_count_per_user(username):
   client = pymongo.MongoClient("mongodb://localhost:27017/labs_stats_db")
   db = client.labs_stats_db
 
@@ -30,14 +30,13 @@ def update_count_per_user(url, username):
 
 
 command = sys.argv[1]
-url = sys.argv[2]
 print len(sys.argv)
-if len(sys.argv) < 4:
+if len(sys.argv) < 3:
   username = None
 else:
-  username = sys.argv[3]
+  username = sys.argv[2]
 
 if command == 'update_runs_count':
-  update_runs_count(url)
+  update_runs_count()
 elif command == 'update_count_per_user':
-  update_count_per_user(url, username)
+  update_count_per_user(username)
